@@ -23,14 +23,33 @@ function renderCards() {
 }
 
 function renderCard(trainer){
+  const div = document.createElement('div')
+  div.className = "card"
+  div.dataset.id = trainer.id
+
+  const p = document.createElement('p')
+  p.innerHTML = trainer.name
+  div.appendChild(p)
+
+  const button = document.createElement('button')
+  button.dataset.id = trainer.id
+  button.innerHTML = "Add Pokemon"
+  div.appendChild(button)
+
+  const ul = document.createElement('ul')
+  
+
+  document.querySelector('main').appendChild(div)
+
   renderPokemon(trainer)
 }
 
 function renderPokemon(trainer) {
-  console.log(trainer.pokemons)
+  console.log(trainer)
 }
-// 
-// <div class="card" data-id="1"><p>Prince</p>
+//
+// <div class="card" data-id="1">
+//   <p>Prince</p>
 //   <button data-trainer-id="1">Add Pokemon</button>
 //   <ul>
 //     <li>Jacey (Kakuna) <button class="release" data-pokemon-id="140">Release</button></li>
