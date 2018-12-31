@@ -32,7 +32,7 @@ function renderCard(trainer){
   div.appendChild(p)
 
   const button = document.createElement('button')
-  button.dataset.id = trainer.id
+  button.dataset.trainerId = trainer.id
   button.innerHTML = "Add Pokemon"
   div.appendChild(button)
 
@@ -54,7 +54,7 @@ function renderPokemon(trainer, pokemon) {
   const pokeButton = document.createElement('button')
   pokeButton.className = "release"
   pokeButton.innerHTML = "release"
-  pokeButton.dataset.id = pokemon.id
+  pokeButton.dataset.pokemonId = pokemon.id
 
   li.appendChild(pokeButton)
   return li
