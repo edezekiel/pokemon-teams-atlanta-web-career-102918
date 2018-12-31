@@ -23,16 +23,13 @@ function renderCards() {
 }
 
 function renderCard(trainer){
-  const card = createTrainer(trainer)
-
-  card.appendChild(createAddPokemonButton(trainer))
-
+  const card = renderTrainer(trainer)
+  card.appendChild(renderAddButton(trainer))
   card.appendChild(renderPokemons(trainer))
-
   document.querySelector('main').appendChild(card)
 }
 
-function createTrainer(trainer){
+function renderTrainer(trainer){
   const div = document.createElement('div')
   div.className = "card"
   div.dataset.id = trainer.id
@@ -42,11 +39,30 @@ function createTrainer(trainer){
   return div
 }
 
-function createAddPokemonButton(trainer){
+function renderAddButton(trainer){
   const button = document.createElement('button')
   button.dataset.trainerId = trainer.id
   button.innerHTML = "Add Pokemon"
+  button.addEventListener('click', addPokemon)
   return button
+}
+
+function addPokemon(event) {
+  postPokemon(event)
+  .then(console.log)
+}
+
+function postPokemon(event) {
+  const id = parseInt(event.target.dataset.trainerId)
+  const options = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({trainer_id: id})
+  }
+  return fetch(POKEMONS_URL, options)
+  .then(res => res.json())
 }
 
 function renderPokemons(trainer) {
@@ -59,28 +75,29 @@ function renderPokemons(trainer) {
 
 function renderPokemon(trainer, pokemon) {
   const li = document.createElement('li')
-  li.innerHTML = pokemon.nickname
+  li.innerHTML = `${pokemon.nickname} (${pokemon.species})`
 
-  li.appendChild(createReleaseButton(pokemon))
+  li.appendChild(renderReleaseButton(pokemon))
   return li
 }
 
-function createReleaseButton(pokemon) {
-  const pokeButton = document.createElement('button')
-  pokeButton.className = "release"
-  pokeButton.innerHTML = "release"
-  pokeButton.dataset.pokemonId = pokemon.id
-  return pokeButton
+function renderReleaseButton(pokemon) {
+  const releaseButton = document.createElement('button')
+  releaseButton.className = "release"
+  releaseButton.innerHTML = "release"
+  releaseButton.dataset.pokemonId = pokemon.id
+  releaseButton.addEventListener('click', deletePokemon)
+  return releaseButton
 }
-//
-// <div class="card" data-id="1">
-//   <p>Prince</p>
-//   <button data-trainer-id="1">Add Pokemon</button>
-//   <ul>
-//     <li>Jacey (Kakuna) <button class="release" data-pokemon-id="140">Release</button></li>
-//     <li>Zachariah (Ditto) <button class="release" data-pokemon-id="141">Release</button></li>
-//     <li>Mittie (Farfetch'd) <button class="release" data-pokemon-id="149">Release</button></li>
-//     <li>Rosetta (Eevee) <button class="release" data-pokemon-id="150">Release</button></li>
-//     <li>Rod (Beedrill) <button class="release" data-pokemon-id="151">Release</button></li>
-//   </ul>
-// </div>
+
+function deletePokemon(event) {
+  const id = parseInt(event.target.dataset.pokemonId)
+  const options = {
+    method: "DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({pokemon_id: id})
+  }
+  fetch(`${POKEMONS_URL}/${id}`, options)
+}
