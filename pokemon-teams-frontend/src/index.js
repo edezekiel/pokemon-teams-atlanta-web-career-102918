@@ -37,15 +37,27 @@ function renderCard(trainer){
   div.appendChild(button)
 
   const ul = document.createElement('ul')
-  
+
+  trainer.pokemons.forEach(function(pokemon){
+    ul.appendChild(renderPokemon(trainer, pokemon))
+  })
+
+  div.appendChild(ul)
 
   document.querySelector('main').appendChild(div)
-
-  renderPokemon(trainer)
 }
 
-function renderPokemon(trainer) {
-  console.log(trainer)
+function renderPokemon(trainer, pokemon) {
+  const li = document.createElement('li')
+  li.innerHTML = pokemon.nickname
+
+  const pokeButton = document.createElement('button')
+  pokeButton.className = "release"
+  pokeButton.innerHTML = "release"
+  pokeButton.dataset.id = pokemon.id
+
+  li.appendChild(pokeButton)
+  return li
 }
 //
 // <div class="card" data-id="1">
