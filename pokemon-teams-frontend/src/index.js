@@ -48,8 +48,11 @@ function renderAddButton(trainer){
 }
 
 function addPokemon(event) {
+  const ul = event.target.nextElementSibling
   postPokemon(event)
-  .then(console.log)
+  .then(function(pokemon){
+    ul.appendChild(renderPokemon(pokemon))
+  })
 }
 
 function postPokemon(event) {
@@ -68,15 +71,14 @@ function postPokemon(event) {
 function renderPokemons(trainer) {
   const ul = document.createElement('ul')
   trainer.pokemons.forEach(function(pokemon){
-    ul.appendChild(renderPokemon(trainer, pokemon))
+    ul.appendChild(renderPokemon(pokemon))
   })
   return ul
 }
 
-function renderPokemon(trainer, pokemon) {
+function renderPokemon(pokemon) {
   const li = document.createElement('li')
   li.innerHTML = `${pokemon.nickname} (${pokemon.species})`
-
   li.appendChild(renderReleaseButton(pokemon))
   return li
 }
@@ -95,7 +97,6 @@ function releasePokemon(event) {
     released.parentNode.removeChild(released)
     deletePokemon(event)
 }
-
 
 function deletePokemon(event) {
   const id = parseInt(event.target.dataset.pokemonId)
