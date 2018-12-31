@@ -23,41 +23,54 @@ function renderCards() {
 }
 
 function renderCard(trainer){
+  const card = createTrainer(trainer)
+
+  card.appendChild(createAddPokemonButton(trainer))
+
+  card.appendChild(renderPokemons(trainer))
+
+  document.querySelector('main').appendChild(card)
+}
+
+function createTrainer(trainer){
   const div = document.createElement('div')
   div.className = "card"
   div.dataset.id = trainer.id
-
   const p = document.createElement('p')
   p.innerHTML = trainer.name
   div.appendChild(p)
+  return div
+}
 
+function createAddPokemonButton(trainer){
   const button = document.createElement('button')
   button.dataset.trainerId = trainer.id
   button.innerHTML = "Add Pokemon"
-  div.appendChild(button)
+  return button
+}
 
+function renderPokemons(trainer) {
   const ul = document.createElement('ul')
-
   trainer.pokemons.forEach(function(pokemon){
     ul.appendChild(renderPokemon(trainer, pokemon))
   })
-
-  div.appendChild(ul)
-
-  document.querySelector('main').appendChild(div)
+  return ul
 }
 
 function renderPokemon(trainer, pokemon) {
   const li = document.createElement('li')
   li.innerHTML = pokemon.nickname
 
+  li.appendChild(createReleaseButton(pokemon))
+  return li
+}
+
+function createReleaseButton(pokemon) {
   const pokeButton = document.createElement('button')
   pokeButton.className = "release"
   pokeButton.innerHTML = "release"
   pokeButton.dataset.pokemonId = pokemon.id
-
-  li.appendChild(pokeButton)
-  return li
+  return pokeButton
 }
 //
 // <div class="card" data-id="1">
