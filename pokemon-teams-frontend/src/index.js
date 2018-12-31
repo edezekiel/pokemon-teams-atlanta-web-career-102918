@@ -5,10 +5,23 @@ const POKEMONS_URL = `${BASE_URL}/pokemons`
 document.addEventListener("DOMContentLoaded", initPage)
 
 function initPage(event) {
-  getTrainers()
+  renderTrainers()
 }
-function getTrainers(event) {
-  fetch(TRAINERS_URL)
+
+function getTrainers() {
+  return fetch(TRAINERS_URL)
   .then(res => res.json())
-  .then(console.log)
+}
+
+function renderTrainers() {
+  getTrainers()
+  .then(function(trainers){
+    trainers.forEach(function(trainer){
+      renderTrainer(trainer)
+    })
+  })
+}
+
+function renderTrainer(trainer){
+  console.log(trainer.pokemons)
 }
