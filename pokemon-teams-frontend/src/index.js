@@ -86,9 +86,16 @@ function renderReleaseButton(pokemon) {
   releaseButton.className = "release"
   releaseButton.innerHTML = "release"
   releaseButton.dataset.pokemonId = pokemon.id
-  releaseButton.addEventListener('click', deletePokemon)
+  releaseButton.addEventListener('click', releasePokemon)
   return releaseButton
 }
+
+function releasePokemon(event) {
+    const released = event.target.parentNode
+    released.parentNode.removeChild(released)
+    deletePokemon(event)
+}
+
 
 function deletePokemon(event) {
   const id = parseInt(event.target.dataset.pokemonId)
