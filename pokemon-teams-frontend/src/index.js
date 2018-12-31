@@ -50,9 +50,15 @@ function renderAddButton(trainer){
 function addPokemon(event) {
   const ul = event.target.nextElementSibling
   postPokemon(event)
-  .then(function(pokemon){
-    ul.appendChild(renderPokemon(pokemon))
-  })
+  .then(
+    function(data){
+      if (data["error"]) {
+        alert(data["error"])
+      } else {
+          ul.appendChild(renderPokemon(data))
+      }
+    }
+  )
 }
 
 function postPokemon(event) {
